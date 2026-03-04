@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* ── Design tokens SOC ── */
+:root {
+  --bg-primary:   #0D1117;
+  --bg-secondary: #161B22;
+  --bg-tertiary:  #1C2128;
+
+  --accent-cyan:  #00D9FF;
+  --accent-blue:  #1F6FEB;
+
+  --critical:     #FF4444;
+  --high:         #FF8C00;
+  --medium:       #FFD700;
+  --low:          #00C853;
+
+  --text-primary: #E6EDF3;
+  --text-muted:   #8B949E;
+  --text-subtle:  #484F58;
+
+  --border:       #30363D;
+  --radius:       6px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Code / IoC values */
+code, .font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Scrollbar SOC */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-subtle); }
+
+/* Face ID scan sweep animation */
+@keyframes scanSweep {
+  0%   { left: -4px; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: calc(100% + 4px); opacity: 0; }
+}
