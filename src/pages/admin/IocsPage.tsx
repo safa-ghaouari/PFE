@@ -117,14 +117,17 @@ export default function AdminIocsPage() {
 
       {/* ── Filters ── */}
       <div className="flex flex-wrap gap-3">
-        <div className="relative flex-1 min-w-[220px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-muted)]" />
+        <div className="flex flex-1 min-w-[220px] items-center rounded border border-[var(--border)] bg-[var(--bg-secondary)] focus-within:border-[var(--accent-cyan)] transition-colors">
+          <div className="flex h-full items-center px-3">
+            <Search className="h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+          </div>
+          <div className="h-5 w-px bg-[var(--border)]" />
           <input
             type="text"
             placeholder="Search value or source…"
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
-            className="w-full pl-9 pr-3 py-2 text-sm rounded border border-[var(--border)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-cyan)]"
+            className="flex-1 bg-transparent px-3 py-2 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none"
           />
         </div>
 

@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Users, Globe, Shield, AlertTriangle,
   FileCheck, GitMerge, Cpu, FileText, Settings,
-  Bell, BookOpen, ChevronDown, LogOut, ShieldCheck,
+  Bell, BookOpen, LogOut, ShieldCheck, Lock,
 } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import { useAuth } from '@/hooks/useAuth'
@@ -18,16 +18,9 @@ interface NavItem {
 /** Admin MSSP navigation — all routes prefixed with /admin/ */
 const ADMIN_NAV: { group: string; items: NavItem[] }[] = [
   {
-    group: 'General',
+    group: 'SOC Analyst',
     items: [
       { label: 'Dashboard',   to: '/admin/dashboard',   icon: LayoutDashboard, end: true },
-      { label: 'Clients',     to: '/admin/clients',     icon: Users },
-      { label: 'CTI Sources', to: '/admin/sources',     icon: Globe },
-    ],
-  },
-  {
-    group: 'Threat Intel',
-    items: [
       { label: 'Threats',     to: '/admin/threats',     icon: AlertTriangle },
       { label: 'IoCs',        to: '/admin/iocs',        icon: Shield },
       { label: 'Validation',  to: '/admin/validation',  icon: FileCheck },
@@ -35,10 +28,13 @@ const ADMIN_NAV: { group: string; items: NavItem[] }[] = [
     ],
   },
   {
-    group: 'Operations',
+    group: 'Administrator',
     items: [
+      { label: 'Clients',     to: '/admin/clients',     icon: Users },
+      { label: 'CTI Sources', to: '/admin/sources',     icon: Globe },
       { label: 'Jobs',        to: '/admin/jobs',        icon: Cpu },
       { label: 'Reports',     to: '/admin/reports',     icon: FileText },
+      { label: 'Settings',    to: '/admin/settings',    icon: Settings },
     ],
   },
 ]
@@ -79,31 +75,36 @@ export function Sidebar({ collapsed = false }: SidebarProps) {
   return (
     <aside
       className={cn(
-        'flex flex-col h-full bg-[var(--bg-secondary)] border-r border-[var(--border)]',
+        'flex h-full flex-col border-r border-[var(--border)] bg-[var(--bg-secondary)]',
         'transition-all duration-300',
-        collapsed ? 'w-16' : 'w-60'
+        collapsed ? 'w-16' : 'w-64'
       )}
     >
       {/* Logo */}
-      <div className="flex h-14 items-center gap-2 border-b border-[var(--border)] px-4 shrink-0">
-        <ShieldCheck className="h-6 w-6 text-[var(--accent-cyan)] shrink-0" />
+      <div className="flex h-14 shrink-0 items-center gap-2 border-b border-[var(--border)] px-4">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-[var(--accent-cyan)]/25 bg-[var(--accent-cyan)]/10">
+          <ShieldCheck className="h-4 w-4 text-[var(--accent-cyan)]" />
+        </div>
         {!collapsed && (
-          <span className="text-sm font-bold text-[var(--text-primary)] tracking-tight truncate">
-            ThreatHunting
+          <span className="truncate text-[11px] font-black uppercase tracking-[0.15em] text-[var(--text-primary)]">
+            Threat<span className="text-[var(--accent-cyan)]">Hunter</span>
           </span>
         )}
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-4">
+      <nav className="flex-1 space-y-6 overflow-y-auto px-2 py-4">
         {nav.map((section) => (
           <div key={section.group}>
             {!collapsed && (
-              <p className="mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[var(--text-subtle)]">
-                {section.group}
-              </p>
+              <div className="mb-2 flex items-center gap-2 px-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-subtle)]">
+                  {section.group}
+                </p>
+                <div className="h-px flex-1 bg-[var(--border)]" />
+              </div>
             )}
-            <ul className="space-y-0.5">
+            <ul className="space-y-1">
               {section.items.map((item) => (
                 <li key={item.to}>
                   <NavLink
@@ -111,16 +112,29 @@ export function Sidebar({ collapsed = false }: SidebarProps) {
                     end={item.end}
                     className={({ isActive }) =>
                       cn(
-                        'flex items-center gap-3 rounded px-2 py-2 text-sm transition-colors',
-                        'hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]',
+                        'group flex items-center gap-3 rounded-xl border px-2.5 py-2 text-sm transition-all',
+                        'hover:border-[var(--border)] hover:bg-[var(--bg-tertiary)] hover:text-[var(--text-primary)]',
                         isActive
-                          ? 'bg-[var(--accent-cyan)]/10 text-[var(--accent-cyan)] font-medium'
-                          : 'text-[var(--text-muted)]'
+                          ? 'border-[var(--accent-cyan)]/35 bg-[var(--accent-cyan)]/12 text-[var(--accent-cyan)] shadow-[inset_0_0_0_1px_rgba(0,217,255,0.08)]'
+                          : 'border-transparent text-[var(--text-muted)]'
                       )
                     }
                   >
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    {!collapsed && <span className="truncate">{item.label}</span>}
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={cn(
+                            'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border transition-colors',
+                            isActive
+                              ? 'border-[var(--accent-cyan)]/35 bg-[var(--accent-cyan)]/15 text-[var(--accent-cyan)]'
+                              : 'border-[var(--border)] bg-[var(--bg-primary)] text-[var(--text-subtle)] group-hover:text-[var(--text-primary)]'
+                          )}
+                        >
+                          <item.icon className="h-4 w-4 shrink-0" />
+                        </span>
+                        {!collapsed && <span className="truncate text-[15px]">{item.label}</span>}
+                      </>
+                    )}
                   </NavLink>
                 </li>
               ))}
@@ -129,15 +143,33 @@ export function Sidebar({ collapsed = false }: SidebarProps) {
         ))}
       </nav>
 
+      {/* Emergency Lock */}
+      <div className="shrink-0 border-t border-[var(--border)] px-2 py-2">
+        <button
+          className={cn(
+            'flex w-full items-center gap-2 rounded-xl border border-red-500/35 bg-red-500/10 px-3 py-2.5 transition-all',
+            'hover:border-red-500/60 hover:bg-red-500/20',
+            collapsed && 'justify-center px-0'
+          )}
+        >
+          <Lock className="h-4 w-4 shrink-0 text-red-400" />
+          {!collapsed && (
+            <span className="text-[11px] font-bold uppercase tracking-wider text-red-400">
+              Emergency Lock
+            </span>
+          )}
+        </button>
+      </div>
+
       {/* User info + logout */}
       <div className="shrink-0 border-t border-[var(--border)] p-2">
         {!collapsed ? (
-          <div className="flex items-center gap-2 rounded px-2 py-2">
+          <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-primary)] px-2 py-2">
             <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent-cyan)]/20 text-xs font-bold text-[var(--accent-cyan)]">
               {user?.name?.charAt(0).toUpperCase() ?? 'U'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="truncate text-xs font-medium text-[var(--text-primary)]">{user?.name}</p>
+              <p className="truncate text-xs font-semibold text-[var(--text-primary)]">{user?.name}</p>
               <p className="truncate text-[10px] text-[var(--text-subtle)]">
                 {user?.role === ROLES.ADMIN ? 'Admin MSSP' : 'Client'}
               </p>
@@ -145,7 +177,7 @@ export function Sidebar({ collapsed = false }: SidebarProps) {
             <button
               onClick={handleLogout}
               title="Log out"
-              className="shrink-0 text-[var(--text-muted)] hover:text-red-400 transition-colors"
+              className="shrink-0 rounded-md p-1 text-[var(--text-muted)] transition-colors hover:bg-red-500/10 hover:text-red-400"
             >
               <LogOut className="h-4 w-4" />
             </button>

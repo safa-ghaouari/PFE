@@ -89,14 +89,20 @@ export default function ThreatsPage() {
       {/* ── Filters ── */}
       <div className="flex flex-wrap gap-3">
         {/* Search */}
-        <div className="relative flex-1 min-w-[220px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--text-muted)]" />
+        <div className="flex flex-1 min-w-[220px] items-center gap-0 rounded border border-[var(--border)] bg-[var(--bg-secondary)] focus-within:border-[var(--accent-cyan)] transition-colors">
+          {/* icon zone — clearly separated */}
+          <div className="flex h-full items-center px-3">
+            <Search className="h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+          </div>
+          {/* vertical divider */}
+          <div className="h-5 w-px bg-[var(--border)]" />
+          {/* text input */}
           <input
             type="text"
             placeholder="Search title or source…"
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
-            className="w-full pl-9 pr-3 py-2 text-sm rounded border border-[var(--border)] bg-[var(--bg-secondary)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-cyan)]"
+            className="flex-1 bg-transparent px-3 py-2 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none"
           />
         </div>
 
@@ -174,9 +180,9 @@ export default function ThreatsPage() {
 
                   {/* Source */}
                   <td className="px-4 py-3 text-[var(--text-muted)] whitespace-nowrap">
-                    <span className="flex items-center gap-1">
+                    <span className="flex items-center gap-2">
                       <ExternalLink className="h-3 w-3 shrink-0" />
-                      {threat.source}
+                      <span>{threat.source}</span>
                     </span>
                   </td>
 

@@ -22,6 +22,19 @@
   --radius:       6px;
 }
 
+/* ── Light mode tokens ── */
+html.light {
+  --bg-primary:   #f6f8fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary:  #eaeef2;
+
+  --text-primary: #1c2128;
+  --text-muted:   #57606a;
+  --text-subtle:  #8c959f;
+
+  --border:       #d0d7de;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

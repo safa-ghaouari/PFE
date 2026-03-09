@@ -5,7 +5,7 @@ import { Topbar } from '@/components/layout/Topbar'
 
 /** Map route → titre de page affiché dans la Topbar */
 const PAGE_TITLES: Record<string, string> = {
-  '/admin/dashboard':   'Dashboard',
+  '/admin/dashboard':   'Operations Hub',
   '/admin/clients':     'Client Management',
   '/admin/sources':     'CTI Sources',
   '/admin/threats':     'Threats',
@@ -47,7 +47,7 @@ export default function AdminLayout() {
         />
 
         {/* Zone de contenu scrollable */}
-        <main className="flex-1 overflow-y-auto p-6">
+        <main className="flex-1 overflow-y-auto px-12 py-8">
           <Outlet />
         </main>
       </div>
